@@ -9,20 +9,30 @@
 </head>
 <body>
     <?php
+    session_start();
+include('conexion.php');
+$permiso='n';
+if (isset($_SESSION["nombreusuario"])) {
     
-    include('conexion.php');
-    //echo "</div>"; 
-    if (isset($_SESSION['nombreusuario'])) {
-        if ($_SESSION['permiso'] === 'p') {
-            echo "<h3 class='texto'>BIENVENIDO ADMINISTRADOR " . $_SESSION['nombreusuario'] . "</h3>";
-        } else {
-          echo"<h3 class='texto'>YA ESTAS LOGEADO </h3>";
-        }
-        exit(); // Asegúrate de salir del script después de redirigir
+    $usuario = mysqli_real_escape_string($conexion, $_SESSION['nombreusuario']);
+    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
+    $result = mysqli_query($conexion, $sql);
+    if ($row = mysqli_fetch_array($result)) {
+        if($permiso = ($row['permiso'] === 'p')){
+            $permiso= 'p';
+        }// Verifica si es administrador
     }
 
+    if ($permiso === 'p') {
+        echo "<script>alert('BIENVENIDO ADMIN'); window.location = '../index.php'</script>";
+        die();
+    } else {
+        echo "<script>alert('BIENVENIDO!'); window.location = '../index.php'</script>";
+        die();
+    }
+} else {
+
     ?>
-    
     <div class="registrarse">
         <h1>REGISTRARSE</h1>
         <form action="registrarse.php" method="POST" >
@@ -70,6 +80,7 @@ if(isset($_POST['Registrarse'])){
         } else {
             echo "<div class='alert alert-danger'>Error: Hay un error en la inserción!</div>";
         }
+    }
     }
 }
 ?>

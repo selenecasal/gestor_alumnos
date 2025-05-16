@@ -9,19 +9,26 @@
 <body>
 <?php
 session_start();
-//echo "<div class='conexion'>";
 include('conexion.php');
-
-
-//si se ha iniciado sesion se direcciona a la pagina
-if (isset($_SESSION['nombreusuario'])) {
-    if ($_SESSION['permiso'] === 'p' &&  $_SESSION['permiso'] != null) {
-        echo "<script>alert('BIENVENIDO ADMIN'); window.location = '../index.php'</script>"; // Redirige al admin
-    } else {
-        echo "<script>alert('BIENVENIDO!'); window.location = '../index.php'</script>"; // Redirige a la página normal
+$permiso='n';
+if (isset($_SESSION["nombreusuario"])) {
+    $usuario = mysqli_real_escape_string($conexion, $_SESSION['nombreusuario']);
+    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
+    $result = mysqli_query($conexion, $sql);
+    if ($row = mysqli_fetch_array($result)) {
+        if($permiso = ($row['permiso'] === 'p')){
+            $permiso= 'p';
+        }
     }
-    exit(); // Asegúrate de salir del script después de redirigir
-}
+
+    if ($permiso === 'p') {
+        echo "<script>alert('BIENVENIDO ADMIN'); window.location = '../index.php'</script>";
+        die();
+    } else {
+        echo "<script>alert('BIENVENIDO!'); window.location = '../index.php'</script>";
+        die();
+    }
+} else {
 //si no va al login
 if(isset($_POST['btn_enviar'])){
         
@@ -58,9 +65,12 @@ if(isset($_POST['btn_enviar'])){
             <input type="password" name="contrasenia" id="" placeholder="PASSWORD" required>
             <input type="submit" value="ENVIAR" name="btn_enviar" class="btn_enviar">
             <a href="#">¿Olvidaste tu contraseña?</a>
+            <a href="../index.php">Volver</a>
             <a href="cerrar_sesion.php">Cerrar sesión</a>
             <a href="registrarse.php">Registrarse</a>
         </form>    
     </div>
 </body>
 </html>
+<?php
+}

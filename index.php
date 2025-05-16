@@ -33,10 +33,11 @@ if (isset($_SESSION['nombreusuario'])) {
     <h1>Bienvenido</h1>
     <p class="subtitle">Seleccione una opción para continuar</p>
     <div class="button-container">
-        <a href="#" rel="noopener" class="ingre button-link">Informes</a>
+        <a href="PHP/informes.php" rel="noopener" class="ingre button-link">Informes</a>
         <a href="PHP/agregar_alumno.php" rel="noopener" class="ingre adm button-link">Agregar Alumno</a>
-        <a href="#" rel="noopener" class="ingre adm button-link">Ingresar Notas</a>
+        <a href="PHP/ingresar_notas.php" rel="noopener" class="ingre adm button-link">Ingresar Notas</a>
         <a href="PHP/permiso.php" rel="noopener" class="ingre adm button-link">Agregar Permiso</a>
+        <a href="PHP/agregar_materias.php" rel="noopener" class="ingre adm button-link">Agregar Materias</a>
         <a href="PHP/login.php" rel="noopener" class="ing button-link">Ingresar</a>
         <a href="PHP/registrarse.php" rel="noopener" class="ing button-link">Registrarse</a>
         <a href="PHP/cerrar_session.php" rel="noopener" class="ingre button-link">Cerrar Sesión</a>

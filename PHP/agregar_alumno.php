@@ -1,12 +1,45 @@
 <?php
 session_start();
 include('conexion.php');
-if(!isset($_SESSION['nombreusuario'])){
-    header("Location: registrarse.php");
-    exit();
-}else{
-if($_SESSION['permiso'] === 'p'){
-?>
+$permiso='n';
+if (isset($_SESSION["nombreusuario"])) {
+    $usuario = mysqli_real_escape_string($conexion, $_SESSION['nombreusuario']);
+    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
+    $result = mysqli_query($conexion, $sql);
+    if ($row = mysqli_fetch_array($result)) {
+        if($permiso = ($row['permiso'] === 'p')){
+            $permiso= 'p';
+        }
+        // Verifica si es administrador
+    }
+
+    if ($permiso === 'p') {
+        if(isset($_POST['enviar'])){
+            $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']) ;
+            $apellido = mysqli_real_escape_string($conexion, $_POST['Apellido']) ;
+            $dni = mysqli_real_escape_string($conexion, $_POST['DNI']) ;
+            $curso = mysqli_real_escape_string($conexion, $_POST['Curso']) ;
+            $division = mysqli_real_escape_string($conexion, $_POST['Division']) ;
+            $modalidad = mysqli_real_escape_string($conexion, $_POST['Modalidad']) ;
+            $fecha_nacimiento = mysqli_real_escape_string($conexion, $_POST['fecha_nacimiento']) ;
+            $fecha_nacimiento = date('Y-m-d', strtotime($fecha_nacimiento)); // Formato de fecha YYYY-MM-DD
+            $sql= "INSERT INTO alumno(nombre, apellido, dni, curso, division, modalidad, fecha_nacimiento) VALUES ('$nombre', '$apellido','$dni','$curso' , '$division', '$modalidad', '$fecha_nacimiento')";
+            $result = mysqli_query($conexion, $sql);
+            if($result){
+                echo "<h3 class='texto'>Alumno agregado con exito </h3>";
+            }else{
+                echo "<h3 class='texto'> error al agregar alumno </h3>" . mysqli_error($conexion);
+            }
+        }
+        echo"</div>";
+        
+        }else{
+            echo "<script>alert('NO TIENES PERMISO'); window.location = '../index.php'</script>";
+        
+        }
+        }
+        mysqli_close($conexion);
+        ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +51,7 @@ if($_SESSION['permiso'] === 'p'){
 </head>
 <body>
     <div class="agregar">
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="agregar_alumno.php" method="post" enctype="multipart/form-data">
         <h1>Agrega alumno: </h1>
         <label for="nombre">Nombre del Alumno:</label>
         <input type="text" name="nombre" placeholder="Nombre del Alumno" required>
@@ -62,29 +95,3 @@ if($_SESSION['permiso'] === 'p'){
         <a href="../index.php">VOLVER</a>
 </body>
 </html>
-<?php
-if(isset($_POST['enviar'])){
-    $nombre = mysqli_real_escape_string($conexion, $_POST['nombre']) ;
-    $apellido = mysqli_real_escape_string($conexion, $_POST['Apellido']) ;
-    $dni = mysqli_real_escape_string($conexion, $_POST['DNI']) ;
-    $curso = mysqli_real_escape_string($conexion, $_POST['Curso']) ;
-    $division = mysqli_real_escape_string($conexion, $_POST['Division']) ;
-    $modalidad = mysqli_real_escape_string($conexion, $_POST['Modalidad']) ;
-    $fecha_nacimiento = mysqli_real_escape_string($conexion, $_POST['fecha_nacimiento']) ;
-    $fecha_nacimiento = date('Y-m-d', strtotime($fecha_nacimiento)); // Formato de fecha YYYY-MM-DD
-    $sql= "INSERT INTO alumno(nombre, apellido, dni, curso, division, modalidad, fecha_nacimiento) VALUES ('$nombre', '$apellido','$dni','$curso' , '$division', '$modalidad', '$fecha_nacimiento')";
-    $result = mysqli_query($conexion, $sql);
-    if($result){
-        echo "<h3 class='texto'>Alumno agregado con exito </h3>";
-    }else{
-        echo "<h3 class='texto'> error al agregar alumno </h3>" . mysqli_error($conexion);
-    }
-}
-echo"</div>";
-
-}else{
-    echo "<h1 class='texto'>No tienes permiso para acceder a esta pagina</h1>";
-}
-}
-mysqli_close($conexion);
-?>

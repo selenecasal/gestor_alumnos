@@ -1,11 +1,19 @@
 <?php
 session_start();
 include('conexion.php');
-if(!isset($_SESSION['nombreusuario'])){
-    header("Location: ../index.php");
-    exit();
-}else{
-if($_SESSION['permiso'] === 'p'){
+$permiso='n';
+if (isset($_SESSION["nombreusuario"])) {
+    
+    $usuario = mysqli_real_escape_string($conexion, $_SESSION['nombreusuario']);
+    $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
+    $result = mysqli_query($conexion, $sql);
+    if ($row = mysqli_fetch_array($result)) {
+        if($permiso = ($row['permiso'] === 'p')){
+            $permiso= 'p';
+        }// Verifica si es administrador
+    }
+
+    if ($permiso === 'p') {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +32,7 @@ if($_SESSION['permiso'] === 'p'){
         <input type="text" name="nombre" placeholder="Nombre del Usuario" required>
         <br>
         <input type="submit" name="BUSCAR" value="BUSCAR">
+        <a href="../index.php">Volver</a>
     </form></div>
  
 </body>
