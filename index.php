@@ -30,7 +30,7 @@ if (isset($_SESSION['nombreusuario'])) {
     <link rel="stylesheet" href="Css/style.css">
 </head>
 <body>
-    <h1>Bienvenido</h1>
+    <h1>Bienvenido a Gestion Escolar</h1>
     <p class="subtitle">Seleccione una opción para continuar</p>
     <div class="button-container">
         <a href="PHP/informes.php" rel="noopener" class="ingre button-link">Informes</a>

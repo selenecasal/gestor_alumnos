@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>registrarse</title>
-    <link rel="stylesheet" href="Css/estilos.css?1">
+    <link rel="stylesheet" href="../Css/style.css?1">
 </head>
 <body>
     <?php
@@ -33,7 +33,7 @@ if (isset($_SESSION["nombreusuario"])) {
 } else {
 
     ?>
-    <div class="registrarse">
+    <div class="caja_login">
         <h1>REGISTRARSE</h1>
         <form action="registrarse.php" method="POST" >
             <label for="usuario">Usuario: </label>
@@ -42,8 +42,7 @@ if (isset($_SESSION["nombreusuario"])) {
             <input type="password" name="pass" placeholder="PASSWORD" size="25px" style="height: 30px;" required><br>
             <input type="submit" value="Registrarse" name="Registrarse" class="btn_enviar">
             <a href="../index.php"><h3>Volver al inicio</h3></a> 
-            <br>
-            <br>
+            
             <a href="login.php"><h3>¿Ya estas registrado? inicia sesion.</h3></a>
         </form>
     </div>

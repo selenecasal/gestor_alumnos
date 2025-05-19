@@ -41,9 +41,12 @@ if (isset($_SESSION["nombreusuario"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Materias</title>
+    <link rel="stylesheet" href="../Css/style.css?5">
 </head>
 <body>
-    Agregar Materias:
+    <div class="caja_login">
+    <h1>Agregar Materias:</h1>
+    
     <form action="agregar_materias.php" method="post">
         <label for="nombre">Nombre de la Materia:</label>
         <input type="text" name="nombre" placeholder="Nombre de la Materia" required>
@@ -57,5 +60,6 @@ if (isset($_SESSION["nombreusuario"])) {
         <br>
         <a href="../index.php">Volver</a>
         <input type="submit" name="enviar" value="enviar">
+    </div>
 </body>
 </html>

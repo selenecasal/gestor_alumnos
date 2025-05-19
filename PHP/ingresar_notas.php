@@ -56,11 +56,11 @@ if (isset($_SESSION["nombreusuario"])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ingresar Notas</title>
-    <link rel="stylesheet" href="../Css/style.css" />
+    <link rel="stylesheet" href="../Css/style.css?4">
 </head>
 <body>
     <div class="container">
-        <h1>Ingresar Notas</h1>
+        <h1 class="titulo" >Ingresar Notas</h1>
         <form action="" method="post">
             <label for="alumno">Selecciona el Alumno:</label>
             <select name="alumno" id="alumno" required>

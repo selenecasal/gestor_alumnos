@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-    <link rel="stylesheet" href="Css/style.css?2">
+    <link rel="stylesheet" href="../Css/style.css?5">
 </head>
 <body>
 <?php
@@ -59,14 +59,15 @@ if(isset($_POST['btn_enviar'])){
     <div class="caja_login">
         <h1>LOGIN</h1>
         <form action="login.php" method="POST">
-            <label for="usuario">Usuario: </label>
+            <label for="usuario" >Usuario: </label>
             <input type="text" name="usuario" placeholder="USUARIO" required>
             <label for="contraseña">Contraseña: </label>
             <input type="password" name="contrasenia" id="" placeholder="PASSWORD" required>
             <input type="submit" value="ENVIAR" name="btn_enviar" class="btn_enviar">
-            <a href="#">¿Olvidaste tu contraseña?</a>
             <a href="../index.php">Volver</a>
+            <br>
             <a href="cerrar_sesion.php">Cerrar sesión</a>
+            <br>
             <a href="registrarse.php">Registrarse</a>
         </form>    
     </div>

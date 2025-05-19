@@ -47,10 +47,10 @@ if (isset($_SESSION["nombreusuario"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar alumno</title>
-    <link rel="stylesheet" href="../Css/estilos.css?1">
+    <link rel="stylesheet" href="../Css/style.css?1">
 </head>
 <body>
-    <div class="agregar">
+    <div class="caja_login">
     <form action="agregar_alumno.php" method="post" enctype="multipart/form-data">
         <h1>Agrega alumno: </h1>
         <label for="nombre">Nombre del Alumno:</label>
@@ -90,8 +90,9 @@ if (isset($_SESSION["nombreusuario"])) {
         <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
         <br>
         <input type="submit" name="enviar" value="enviar">
-</form></div>
+</form>
         <br>
         <a href="../index.php">VOLVER</a>
+        </div>
 </body>
 </html>
