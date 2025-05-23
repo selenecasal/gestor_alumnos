@@ -8,9 +8,8 @@ if (isset($_SESSION["nombreusuario"])) {
     $result = mysqli_query($conexion, $sql);
     if ($row = mysqli_fetch_array($result)) {
         if($permiso = ($row['permiso'] === 'p')){
-            $permiso= 'p';
+            $permiso = 'p';
         }
-        // Verifica si es administrador
     }
 
     if ($permiso === 'p') {

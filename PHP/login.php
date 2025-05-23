@@ -19,8 +19,7 @@ if (isset($_SESSION["nombreusuario"])) {
         if($permiso = ($row['permiso'] === 'p')){
             $permiso= 'p';
         }
-    }
-
+}
     if ($permiso === 'p') {
         echo "<script>alert('BIENVENIDO ADMIN'); window.location = '../index.php'</script>";
         die();
@@ -37,21 +36,14 @@ if(isset($_POST['btn_enviar'])){
     }
     $usuario= $_POST['usuario'];
     $pass = $_POST['contrasenia'];
-    if($usuario== 'admin' && $pass == 'admin'){
-        $_SESSION['nombreusuario']=$usuario;
-        $_SESSION['permiso'] = 'p'; // Asignar permiso de administrador
-        echo "<script>alert('BIENVENIDO ADMIN'); window.location = '../index.php'</script>";
-        die();
-    }
     $query = mysqli_query($conexion, "SELECT * FROM usuario WHERE usuario = '".$usuario."' AND pass = '".$pass."'");
     $nr = mysqli_num_rows($query);
 
     if($nr == 1){
-        //si el usuario esta ingresando por primera vez se guarda su nombre en la sesion
         $_SESSION['nombreusuario']=$usuario;
         echo "<script>alert('BIENVENIDO!'); window.location = '../index.php'</script>";
             die();
-        }else if ($nr == 0){
+        }else{
             echo "<script>alert('Usuario no registrado'); window.location = '../index.php'</script>";
         } 
 }

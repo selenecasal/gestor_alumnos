@@ -43,6 +43,18 @@ if (!isset($_SESSION['nombreusuario'])) {
             }
             ?>
         </select>
+        <select name="materia">
+            <option value="">Seleccione una materia</option>
+            <?php
+            $query = "SELECT * FROM materia";
+            $result = mysqli_query($conexion, $query);
+            if ($result) {
+                while ($row = mysqli_fetch_array($result)) {
+                    echo "<option value='" . $row['id_materia'] . "'>" . htmlspecialchars($row['nombre'] . " " . $row['modalidad']) . "</option>";
+                }
+            }
+            ?>
+        </select>
         <input type="submit" name="enviar" value="Generar Informe" />
     </form>
 
@@ -59,12 +71,13 @@ if (!isset($_SESSION['nombreusuario'])) {
         <?php
         $curso = '';
         $alumno = '';
-
+        $materia = '';
         if (isset($_POST['enviar'])) {
 
             $curso = isset($_POST['curso']) ? mysqli_real_escape_string($conexion, $_POST['curso']) : '';
             $alumno = isset($_POST['alumno']) ? mysqli_real_escape_string($conexion, $_POST['alumno']) : '';
-
+            $materia = isset($_POST['materia']) ? mysqli_real_escape_string($conexion, $_POST['materia']) : '';
+            var_dump($materia);
             $query = "SELECT alumno.nombre, alumno.apellido, materia.nombre AS materia, AVG(nota.nota) AS promedio 
                       FROM alumno
                     JOIN nota ON alumno.id_alumno = nota.id_alumno
@@ -78,6 +91,7 @@ if (!isset($_SESSION['nombreusuario'])) {
             if ($alumno !== '') {
                 $conditions[] = "alumno.id_alumno = '$alumno'";
             }
+            
 
             if (count($conditions) > 0) {
                 $query .= " WHERE " . implode(" AND ", $conditions);
@@ -118,7 +132,36 @@ if (!isset($_SESSION['nombreusuario'])) {
                 }
             }
         } 
-    }else {
+        
+        if ($materia !== '') {
+            // haceeeer
+            $query = "SELECT alumno.nombre, alumno.apellido, materia.nombre, AVG(nota.nota) AS promedio 
+            FROM alumno
+            JOIN nota ON alumno.id_alumno = nota.id_alumno
+            JOIN materia ON nota.id_materia = materia.id_materia
+            WHERE materia.id_materia = '$materia'
+            GROUP BY alumno.id_alumno, materia.id_materia, alumno.nombre, alumno.apellido, materia.nombre";
+            $result = mysqli_query($conexion, $query);
+            if ($result && mysqli_num_rows($result) >0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo "<tr>";
+                    echo "<td>" . htmlspecialchars($row['nombre']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['apellido']) . "</td>";
+                    echo "<td>" . htmlspecialchars($row['materia'] ?? 'Sin materia') . "</td>";
+                    echo "<td>";
+                    if (is_null($row['promedio'])) {
+                        echo "Sin nota";
+                    } else {
+                        echo number_format($row['promedio'], 2);
+                    }
+                    echo "</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No se encontraron resultados.</td></tr>";
+            }
+        }  
+}else {
             $query = "SELECT alumno.nombre, alumno.apellido, materia.nombre AS materia, AVG(nota.nota) AS promedio 
                       FROM alumno
                     JOIN nota ON alumno.id_alumno = nota.id_alumno

@@ -8,10 +8,9 @@ if (isset($_SESSION["nombreusuario"])) {
     $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
     $result = mysqli_query($conexion, $sql);
     if ($row = mysqli_fetch_array($result)) {
-        // Correct comparison operator '==' instead of '='
         if($row['permiso'] === 'p'){
             $permiso= 'p';
-        }// Verifica si es administrador
+        }
     }
 
     if ($permiso === 'p') {
@@ -40,7 +39,16 @@ if (isset($_SESSION["nombreusuario"])) {
             } else {
                 echo "<script>alert('Alumno no encontrado');</script>";
             }
+        }if(isset($_POST['eliminar'])){
+            $id_nota = mysqli_real_escape_string($conexion, $_POST['id_nota']);
+            $query_delete = "DELETE FROM nota WHERE id_nota = '$id_nota'";
+            if (mysqli_query($conexion, $query_delete)) {
+                echo "<script>alert('Nota eliminada correctamente');</script>";
+            } else {
+                echo "<script>alert('Error al eliminar la nota');</script>";
+            }
         }
+
     } else {
         echo "<script>alert('NO TIENES PERMISO'); window.location = '../index.php'</script>";
         exit;
@@ -87,8 +95,25 @@ if (isset($_SESSION["nombreusuario"])) {
             <input type="number" name="nota" id="nota" placeholder="Nota" min="0" max="100" step="0.1" required>
             <br>
             <a href="../index.php">Volver</a>
-            <input type="submit" name="enviar" value="Enviar">
+            <input type="submit" name="enviar" value="Agregar nota">
         </form>
+
+        <h2>Eliminar Nota</h2>
+        <form action="ingresar_notas.php" method="post">
+            <label for="id_nota">Selecciona la Nota a eliminar:</label>
+            <select name="id_nota" id="id_nota" required>
+                <?php
+                $query = "SELECT * FROM nota INNER JOIN alumno ON nota.id_alumno = alumno.id_alumno INNER JOIN materia ON nota.id_materia = materia.id_materia";
+                $result = mysqli_query($conexion, $query);
+                while ($row = mysqli_fetch_array($result)) {
+                    echo "<option value='" . $row['id_nota'] . "'>" . htmlspecialchars($row['nombre'] . " " . $row['apellido'] . " - " . $row['nombre_materia'] . " - " . $row['nota']) . "</option>";
+                }
+                ?>
+            </select>
+            <br>
+            <input type="submit" name="eliminar" value="Eliminar nota">
+        </form>
+
     </div>
 </body>
 </html>

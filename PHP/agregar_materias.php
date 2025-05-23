@@ -9,7 +9,7 @@ if (isset($_SESSION["nombreusuario"])) {
     if ($row = mysqli_fetch_array($result)) {
         if($permiso = ($row['permiso'] === 'p')){
             $permiso= 'p';
-        } // Verifica si es administrador
+        }
     }
 
     if ($permiso === 'p') {
@@ -24,6 +24,18 @@ if (isset($_SESSION["nombreusuario"])) {
                 echo "Materia agregada correctamente.";
             } else {
                 echo "Error al agregar la materia.";
+            }
+        }
+        if (isset($_POST['eliminar_materia'])) {
+            $id_materia = $_POST['eliminar'];
+            $query = "DELETE FROM materia WHERE id_materia = '$id_materia'";
+            $result = mysqli_query($conexion, $query);
+            $query = "DELETE FROM notas WHERE id_materia = '$id_materia'";
+            $resul = mysqli_query($conexion, $query);
+            if ($result && $resul) {
+                echo "Materia eliminada correctamente.";
+            } else {
+                echo "Error al eliminar la materia.";
             }
         }
     } else {
@@ -49,10 +61,10 @@ if (isset($_SESSION["nombreusuario"])) {
     
     <form action="agregar_materias.php" method="post">
         <label for="nombre">Nombre de la Materia:</label>
-        <input type="text" name="nombre" placeholder="Nombre de la Materia" required>
+        <input type="text" name="nombre" placeholder="Nombre de la Materia">
         <br>
         <label for="Modalidad">Modalidad: </label>
-        <select name="Modalidad" id="Modalidad" required>
+        <select name="Modalidad" id="Modalidad">
             <option value="basica">basica</option>
             <option value="tecmu">tecmu</option>
             <option value="tecpro">tecpro</option>
@@ -60,6 +72,21 @@ if (isset($_SESSION["nombreusuario"])) {
         <br>
         <a href="../index.php">Volver</a>
         <input type="submit" name="enviar" value="enviar">
+    </form>
+    <br>
+        <form action="agregar_materias.php" method="post">
+            <label for="eliminar">Eliminar Materia:</label>
+            <select name="eliminar" id="eliminar">
+                <?php
+                $query = "SELECT * FROM materia";
+                $result = mysqli_query($conexion, $query);
+                while ($row = mysqli_fetch_array($result)) {
+                    echo "<option value='" . $row['id_materia'] . "'>" . $row['nombre'] . "</option>";
+                }
+                ?>
+            </select>
+            <input type="submit" name="eliminar_materia" value="Eliminar">
+        </form>
     </div>
 </body>
 </html>
