@@ -92,7 +92,7 @@ if (!isset($_SESSION['nombreusuario'])) {
                 $conditions[] = "alumno.id_alumno = '$alumno'";
             }
             if ($materia !== '') {
-                $conditions[] = "materia.id_materia = '$materia'"; // Agregar condición para materia
+                $conditions[] = "materia.id_materia = '$materia'"; 
             }
 
             if (count($conditions) > 0) {
@@ -122,7 +122,7 @@ if (!isset($_SESSION['nombreusuario'])) {
                 echo "<tr><td colspan='4'>No se encontraron resultados o notas del alumno.</td></tr>";
             }
         } else {
-            // Consulta para mostrar todos los registros si no se han aplicado filtros
+            // si no hay filtros
             $query = "SELECT alumno.nombre, alumno.apellido, materia.nombre AS materia, AVG(nota.nota) AS promedio 
                       FROM alumno
                       JOIN nota ON alumno.id_alumno = nota.id_alumno
