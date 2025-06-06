@@ -73,7 +73,7 @@ if (!isset($_SESSION['nombreusuario'])) {
         $alumno = '';
         $materia = '';
         if (isset($_POST['enviar'])) {
-
+            
             $curso = isset($_POST['curso']) ? mysqli_real_escape_string($conexion, $_POST['curso']) : '';
             $alumno = isset($_POST['alumno']) ? mysqli_real_escape_string($conexion, $_POST['alumno']) : '';
             $materia = isset($_POST['materia']) ? mysqli_real_escape_string($conexion, $_POST['materia']) : '';

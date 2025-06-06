@@ -6,16 +6,15 @@ include("PHP/conexion.php");
 $isAdmin = false;
 $ingreso = 'no';
 
-// Verificar si el usuario está logueado
+
 if (isset($_SESSION['nombreusuario'])) {
     $usuario = mysqli_real_escape_string($conexion, $_SESSION['nombreusuario']);
     $sql = "SELECT * FROM usuario WHERE usuario = '$usuario'";
     $result = mysqli_query($conexion, $sql);
     $ingreso= 'si';  
     if ($row = mysqli_fetch_array($result)) {
-        $isAdmin = ($row['permiso'] === 'p'); // Verifica si es administrador
+        $isAdmin = ($row['permiso'] === 'p'); 
     } else {
-        // Usuario no encontrado en la base de datos
         echo "<script>alert('Usuario no encontrado.'); window.location.href='PHP/login.php';</script>";
         exit();
     }
@@ -60,7 +59,7 @@ if (isset($_SESSION['nombreusuario'])) {
                 element.style.display = 'none';
             });
         }else{
-            //pcultar cerrar sesion x gente no logueada
+            //ocultar cerrar sesion x gente no logueada
             const ingreElements = document.querySelectorAll('.ingre');
             ingreElements.forEach(function(element) {
                 element.style.display = 'none';
